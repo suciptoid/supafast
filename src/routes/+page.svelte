@@ -1,2 +1,12 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import Profile from '$lib/components/profile.svelte';
+	import { user } from '$lib/store';
+</script>
+
+<svelte:head>
+	<title>Supa Fast - Challenge Your Typing Speed</title>
+</svelte:head>
+
+<main>
+	<Profile />
+</main>
