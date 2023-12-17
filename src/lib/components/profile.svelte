@@ -17,9 +17,14 @@
 	});
 </script>
 
-<div id="profile" class="absolute top-0 left-0 px-4 py-2">
+<div
+	id="profile"
+	class="absolute top-0 left-0 px-4 py-2 flex items-center gap-3 text-sm font-medium"
+>
 	{#if $user}
-		{$user.user_metadata.full_name || $user.email}
+		<div class="text-sm font-medium text-blue-600">
+			{$user.user_metadata.full_name || $user.email}
+		</div>
 		<button on:click={logout}>logout</button>
 	{:else}
 		<button on:click={login}>Sign In With Google</button>

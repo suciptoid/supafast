@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Profile from '$lib/components/profile.svelte';
-	import { user } from '$lib/store';
+	import Room from '$lib/components/room.svelte';
+	import { room } from '$lib/store';
 </script>
 
 <svelte:head>
@@ -9,4 +10,5 @@
 
 <main>
 	<Profile />
+	<Room />
 </main>
