@@ -4,6 +4,7 @@
 	export let word: string;
 	export let typed: string;
 	export let wpm: number;
+	export let name: string = $user?.user_metadata.full_name || 'Guest';
 </script>
 
 <div class="inline-block">
@@ -22,7 +23,7 @@
 						? 'right-[0.75rem]'
 						: '-right-1'} -xright-1 absolute whitespace-nowrap rounded-sm bg-yellow-400 -top-[25px] px-3 text-white z-10 border-yellow-300 text-sm py-1"
 				>
-					{$user ? $user.user_metadata.full_name : 'Guest'}
+					{name ?? 'Guest'}
 					{isFinite(wpm) ? wpm : '~'}wpm
 					<div class="relative">
 						<div
