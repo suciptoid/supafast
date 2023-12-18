@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Cursor from './cursor.svelte';
+	import { supabase } from '$lib/supabase';
+	import { channel, myPresenceState, room, user } from '$lib/store';
+	import type { RealtimeChannel } from '@supabase/supabase-js';
 
 	export let baseText = 'the quick brown fox jumps over the lazy dog';
 	let typedText = '';
@@ -33,6 +37,9 @@
 		}
 		lastTouch = Date.now();
 
+		track();
+		// console.log('my presence', channel.presence);
+
 		const allowed = 'abcdefghijklmnopqrstuvwxyz1234567890-=!@#$%^&*()_+[]\\{}|;\':",./<>?`~'.split(
 			''
 		);
@@ -45,11 +52,26 @@
 		}
 	}
 
+	function track() {
+		const state = { ...$myPresenceState };
+		delete state.is_me;
+		$channel?.track({
+			...state,
+			word_index: currentWordIndex,
+			letter_index: typedText.length - 1,
+			wpm: wpm
+		});
+	}
+
 	function startTimer() {
 		timer = setInterval(() => {
 			elapsed = Math.round((Date.now() - startAt) / 1000);
 		}, 1000);
 	}
+
+	onMount(() => {
+		// supabase.channel(`room:${$room}`).subscribe();
+	});
 </script>
 
 <svelte:window on:keydown={onKeyDown} />
