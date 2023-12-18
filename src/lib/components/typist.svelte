@@ -1,7 +1,10 @@
 <script lang="ts">
+	import Cursor from './cursor.svelte';
+
 	export let baseText = 'the quick brown fox jumps over the lazy dog';
 	let typedText = '';
 	let startAt: number;
+	let lastTouch: number;
 	let elapsed: number = 0;
 	let timer: number;
 
@@ -28,6 +31,7 @@
 			startAt = Date.now();
 			startTimer();
 		}
+		lastTouch = Date.now();
 
 		const allowed = 'abcdefghijklmnopqrstuvwxyz1234567890-=!@#$%^&*()_+[]\\{}|;\':",./<>?`~'.split(
 			''
@@ -51,23 +55,21 @@
 <svelte:window on:keydown={onKeyDown} />
 
 <div class="typist text-2xl leading-10 text-center font-medium w-full max-w-4xl">
-	{elapsed}s / {wpm} wpm
 	<div>
 		{#each display as { word, typed, correct, passed }, i}
 			<span
 				class="relative {correct && passed
-					? 'text-blue-600'
+					? 'text-blue-500'
 					: !passed
 						? 'text-gray-500'
 						: 'text-red-500'}"
 			>
-				{word}
 				{#if currentWordIndex === i}
-					<span class="text-blue-600 z-10 absolute left-0">{typed}</span>
+					<Cursor {word} {typed} {wpm} />
+				{:else}
+					{word}
 				{/if}
 			</span>
 		{/each}
 	</div>
-
-	<!-- <div>typed: {typedText}</div> -->
 </div>
