@@ -5,6 +5,7 @@
 	export let typed: string;
 	export let wpm: number;
 	export let name: string = $user?.user_metadata.full_name || 'Guest';
+	export let me: boolean = true;
 </script>
 
 <div class="inline-block">
@@ -19,9 +20,9 @@
 			{letter}
 			{#if i == typed.length - 1 || (typed.length == 0 && i == 0)}
 				<div
-					class="{typed.length == 0 && i == 0
-						? 'right-[0.75rem]'
-						: '-right-1'} -xright-1 absolute whitespace-nowrap rounded-sm bg-yellow-400 -top-[25px] px-3 text-white z-10 border-yellow-300 text-sm py-1"
+					class="{typed.length == 0 && i == 0 ? 'right-[0.75rem]' : '-right-1'} {!me
+						? 'bg-pink-400'
+						: 'bg-teal-400'} -xright-1 absolute whitespace-nowrap rounded-sm -top-[25px] px-3 text-white z-10 shadow text-sm py-1"
 				>
 					{name ?? 'Guest'}
 					{isFinite(wpm) ? wpm : '~'}wpm
@@ -29,7 +30,9 @@
 						<div
 							class="{i == 0 && typed.length == 0
 								? 'xright-4'
-								: '-xright-0'} -right-[9px] h-8 w-0.5 top-0 bg-yellow-400 absolute right-2"
+								: '-xright-0'} -right-[9px] h-8 w-0.5 top-0 {!me
+								? 'bg-pink-400'
+								: 'bg-teal-400'} absolute right-2"
 						></div>
 					</div>
 				</div>

@@ -3,6 +3,8 @@
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
 
+	$: sortedPlayers = [...$players].sort((a, b) => b.wpm ?? 0 - a.wpm ?? 0);
+
 	function join() {
 		$channel = supabase.channel(`room:${$room}`, {
 			config: {
@@ -57,8 +59,15 @@
 	<div class="text-gray-500 relative">
 		{$players.length} online
 
-		<div class="absolute right-0 top-5 flex items-center gap-2 bg-white z-10">
-			{$players.map((p) => `${p.user_name ?? 'Guest'} ${p.is_me ? '(me)' : ''}- ${p.wpm}wpm`)}
+		<div
+			class="absolute right-0 top-5 flex items-center gap-2 bg-white z-10 flex flex-col border min-w-[200px]"
+		>
+			{#each sortedPlayers as p}
+				<div class="w-full px-3 py-1 text-sm">
+					{p.user_name || 'Guest'}
+					{p.wpm || 0} wpm
+				</div>
+			{/each}
 		</div>
 	</div>
 </div>

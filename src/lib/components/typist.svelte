@@ -101,7 +101,13 @@
 				{#if currentWordIndex === i}
 					<Cursor {word} {typed} {wpm} name={$user?.user_metadata.full_name || 'Me'} />
 				{:else if playerIndex[i]}
-					<Cursor {word} typed={word} wpm={playerIndex[i].wpm ?? '~'} name={playerIndex[i].name} />
+					<Cursor
+						{word}
+						typed={word}
+						me={false}
+						wpm={playerIndex[i].wpm ?? '~'}
+						name={playerIndex[i].user_name}
+					/>
 				{:else}
 					{word}
 				{/if}
