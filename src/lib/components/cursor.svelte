@@ -28,11 +28,7 @@
 					{isFinite(wpm) ? wpm : '~'}wpm
 					<div class="relative">
 						<div
-							class="{i == 0 && typed.length == 0
-								? 'xright-4'
-								: '-xright-0'} -right-[8px] h-8 w-0.5 top-0 {!me
-								? 'bg-pink-400'
-								: 'bg-teal-400'} absolute right-2"
+							class=" -right-[8px] h-8 w-0.5 top-0 {!me ? 'bg-pink-400' : 'bg-teal-400'} absolute"
 						></div>
 					</div>
 				</div>
