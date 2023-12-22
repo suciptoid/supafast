@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { channel, onlineCount, room, user, players, type Player, presenceId } from '$lib/store';
+	import { channel, room, user, players, type Player, presenceId } from '$lib/store';
 	import { supabase } from '$lib/supabase';
 	import { onMount } from 'svelte';
 
@@ -10,13 +10,16 @@
 			config: {
 				presence: {
 					key: $presenceId
+				},
+				broadcast: {
+					self: true
 				}
 			}
 		});
+
 		$channel
 			?.on('presence', { event: 'sync' }, () => {
 				const presences = $channel!.presenceState();
-				console.log('sync presence', $channel!.presence.joinRef, presences);
 
 				const presencePlayers = Object.entries(presences).map(([id, presence]) => {
 					const p = presence.at(0);
@@ -29,11 +32,21 @@
 				});
 
 				players.set(presencePlayers);
-
-				console.log('presence players', presencePlayers);
-
-				const count = Object.keys(presences).length;
-				onlineCount.set(count);
+			})
+			.on('broadcast', { event: 'typing' }, ({ payload }) => {
+				players.update((old) => {
+					return old.map((player) => {
+						if (player.id == payload.id) {
+							return {
+								...player,
+								wpm: payload.wpm,
+								word_index: payload.word_index,
+								letter_index: payload.letter_index
+							};
+						}
+						return player;
+					});
+				});
 			})
 			.subscribe(async (status) => {
 				if (status == 'SUBSCRIBED') {

@@ -64,16 +64,20 @@
 	function track() {
 		const state = { ...$myPresenceState };
 		delete state.is_me;
-		$channel?.track({
-			...state,
-			word_index: currentWordIndex,
-			letter_index: typedText.length - 1,
-			wpm: wpm
+		$channel?.send({
+			type: 'broadcast',
+			event: 'typing',
+			payload: {
+				...state,
+				word_index: currentWordIndex,
+				letter_index: typedText.length - 1,
+				wpm: wpm
+			}
 		});
 	}
 
 	function startTimer() {
-		timer = setInterval(() => {
+		timer = window.setInterval(() => {
 			elapsed = Math.round((Date.now() - startAt) / 1000);
 		}, 1000);
 	}

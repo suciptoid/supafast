@@ -30,7 +30,7 @@
 						<div
 							class="{i == 0 && typed.length == 0
 								? 'xright-4'
-								: '-xright-0'} -right-[9px] h-8 w-0.5 top-0 {!me
+								: '-xright-0'} -right-[8px] h-8 w-0.5 top-0 {!me
 								? 'bg-pink-400'
 								: 'bg-teal-400'} absolute right-2"
 						></div>
